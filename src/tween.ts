@@ -129,7 +129,7 @@ export function dimension(
       if (speed < precision && distance < precision) {
         container.value = anchor;
         this.clear();
-        return anchor;
+        return container.value;
       }
 
       dampingForce = velocity * friction;
