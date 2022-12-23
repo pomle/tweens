@@ -20,6 +20,19 @@ All tweens follow the following pattern.
 
 3. GoTo 2
 
+### Spring Config
+
+Three factors control the behavior of a spring physics simulation.
+```ts
+const config = {
+  stiffness: 25, // How strong is the spring
+  mass: 10, // How heavy is the object
+  friction: 5, // How thick is the medium the object travels in
+};
+
+const tween = springs.dimension({value: 0}, config);
+```
+
 
 ### Example with `THREE.Vector3` that transitions a position.
 
