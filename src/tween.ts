@@ -144,3 +144,20 @@ export function spring<T extends Vector>(
     },
   };
 }
+
+export function value(
+  container: { value: number },
+  config: Config = DEFAULT_PHYSICS,
+) {
+  const tween = spring(container, config);
+
+  return {
+    ...tween,
+    to(value: number) {
+      tween.to({ value });
+    },
+    set(value: number) {
+      tween.set({ value });
+    },
+  };
+}
