@@ -1,68 +1,54 @@
-import {
-  Camera,
-  Euler,
-  Material,
-  Object3D,
-  PerspectiveCamera,
-  Vector3,
-} from 'three';
-import { Config, vec3, dimension } from 'tween';
+import { Camera, Material, Object3D, PerspectiveCamera, Vector3 } from 'three';
+import { Config, spring } from 'tween';
 
 export function opacity(material: Material, config?: Config) {
-  const opacity = {
-    value: material.opacity,
-  };
+  const tween = spring({ opacity: material.opacity }, config);
 
-  const tween = dimension(opacity, config);
   return {
     ...tween,
     update(deltaTime: number) {
-      tween.update(deltaTime);
-      material.opacity = opacity.value;
+      if (tween.update(deltaTime)) {
+        material.opacity = tween.values.opacity;
+        return true;
+      }
+      return false;
     },
   };
 }
 
 export function zoom(camera: PerspectiveCamera, config?: Config) {
-  const fov = {
-    value: camera.fov,
-  };
-
-  const tween = dimension(fov, config);
+  const tween = spring({ fov: camera.fov }, config);
 
   return {
     ...tween,
     update(deltaTime: number) {
-      tween.update(deltaTime);
-      if (fov.value !== camera.fov) {
-        camera.fov = fov.value;
+      if (tween.update(deltaTime)) {
+        camera.fov = tween.values.fov;
         camera.updateProjectionMatrix();
+        return true;
       }
-      return fov.value;
+      return false;
     },
   };
 }
 
+type Vec3 = { x: number; y: number; z: number };
+
+export function vec3(vec3: Vector3, config?: Config) {
+  return spring(vec3 as Vec3, config);
+}
+
+export function scale(object: Object3D, config?: Config) {
+  return vec3(object.scale, config);
+}
+
+export function position(object: Object3D, config?: Config) {
+  return vec3(object.position, config);
+}
+
 export function rotation(object: Object3D, config?: Config) {
   const rot = object.rotation;
-  const buffer = new Vector3(rot.x, rot.y, rot.z);
-
-  const tween = vec3(buffer, config);
-
-  return {
-    ...tween,
-    set(rot: Euler) {
-      tween.set(new Vector3(rot.x, rot.y, rot.z));
-    },
-    to(rot: Euler) {
-      tween.to(new Vector3(rot.x, rot.y, rot.z));
-    },
-    update(deltaTime: number) {
-      tween.update(deltaTime);
-      rot.set(buffer.x, buffer.y, buffer.z);
-      return rot;
-    },
-  };
+  return spring(rot as Vec3, config);
 }
 
 export function lookAt(camera: Camera, config?: Config) {
@@ -72,16 +58,11 @@ export function lookAt(camera: Camera, config?: Config) {
   return {
     ...tween,
     update(deltaTime: number) {
-      tween.update(deltaTime);
-      camera.lookAt(lookAt);
+      if (tween.update(deltaTime)) {
+        camera.lookAt(lookAt);
+        return true;
+      }
+      return false;
     },
   };
-}
-
-export function scale(object: Object3D, config?: Config) {
-  return vec3(object.scale, config);
-}
-
-export function position(object: Object3D, config?: Config) {
-  return vec3(object.position, config);
 }
