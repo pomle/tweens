@@ -47,7 +47,8 @@ export function zoom(camera: PerspectiveCamera, config?: Config) {
 type Vec3 = { x: number; y: number; z: number };
 
 export function vec3(vec3: Vector3, config?: Config) {
-  return spring(vec3 as Vec3, config);
+  const tween = spring(vec3 as Vec3, config);
+  return { ...tween, values: vec3 };
 }
 
 export function scale(object: Object3D, config?: Config) {
@@ -60,7 +61,11 @@ export function position(object: Object3D, config?: Config) {
 
 export function rotation(object: Object3D, config?: Config) {
   const rot = object.rotation;
-  return spring(rot as Vec3, config);
+  const tween = spring(rot as Vec3, config);
+  return {
+    ...tween,
+    values: rot,
+  };
 }
 
 export function lookAt(camera: Camera, config?: Config) {
@@ -69,6 +74,7 @@ export function lookAt(camera: Camera, config?: Config) {
 
   return {
     ...tween,
+    values: lookAt,
     update(deltaTime: number) {
       if (tween.update(deltaTime)) {
         camera.lookAt(lookAt);
