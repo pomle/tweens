@@ -21,6 +21,12 @@ export function zoom(camera: PerspectiveCamera, config?: Config) {
 
   return {
     ...tween,
+    to(fov: number) {
+      tween.to({ fov });
+    },
+    set(fov: number) {
+      tween.set({ fov });
+    },
     update(deltaTime: number) {
       if (tween.update(deltaTime)) {
         camera.fov = tween.values.fov;
