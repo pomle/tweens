@@ -6,6 +6,12 @@ export function opacity(material: Material, config?: Config) {
 
   return {
     ...tween,
+    to(opacity: number) {
+      tween.to({ opacity });
+    },
+    set(opacity: number) {
+      tween.set({ opacity });
+    },
     update(deltaTime: number) {
       if (tween.update(deltaTime)) {
         material.opacity = tween.values.opacity;
