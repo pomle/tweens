@@ -16,12 +16,15 @@ const DEFAULT_PHYSICS: Physics = {
   precision: 0.0005,
 };
 
-export function spring(vec: Vector, config: Config = DEFAULT_PHYSICS) {
+export function spring<T extends Vector>(
+  vec: T,
+  config: Config = DEFAULT_PHYSICS,
+) {
   type Key = keyof Vector;
   const keys = Object.keys(vec) as Key[];
 
   function make(initial: number) {
-    const next = { ...vec };
+    const next = { ...vec } as Vector;
     for (const k of keys) {
       next[k] = initial;
     }
@@ -83,11 +86,11 @@ export function spring(vec: Vector, config: Config = DEFAULT_PHYSICS) {
   return {
     values: vec,
 
-    set(this: void, next: Vector) {
+    set(this: void, next: T) {
       copy(vec, next);
     },
 
-    to(this: void, next: Vector) {
+    to(this: void, next: T) {
       desire = next;
     },
 
