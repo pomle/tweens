@@ -60,5 +60,39 @@ describe('Spring', () => {
       const tween = spring({ x: 1, b: 2 });
       expect(tween.update(0.1)).toBe(false);
     });
+
+    it('simulates until goal met', () => {
+      const tween = spring(
+        { x: 1 },
+        { stiffness: 1, mass: 1, friction: 1, precision: 0.01 },
+      );
+      tween.to({ x: 2 });
+
+      let rounds = 0;
+      while (tween.update(0.1)) {
+        rounds++;
+      }
+      expect(rounds).toBe(46);
+    });
+
+    it('simulates with expected diff', () => {
+      const tween = spring(
+        { x: 1 },
+        { stiffness: 1, mass: 1, friction: 1, precision: 0.01 },
+      );
+      tween.to({ x: 2 });
+      expect(tween.update(0.1)).toBe(true);
+      expect(tween.values).toEqual({ x: 1.1 });
+    });
+
+    it('settles to exact goal value on simulation end', () => {
+      const tween = spring(
+        { x: 1 },
+        { stiffness: 1, mass: 1, friction: 1, precision: 0.01 },
+      );
+      tween.to({ x: 2 });
+      while (tween.update(0.1));
+      expect(tween.values).toEqual({ x: 2 });
+    });
   });
 });
