@@ -84,12 +84,12 @@ export function spring<T extends Vector>(
 
   let desire: Vector | undefined;
 
+  const acceleration = make(0);
+  const dampingForce = make(0);
   const delta = make(0);
   const force = make(0);
-  const dampingForce = make(0);
-  const springForce = make(0);
-  const acceleration = make(0);
   const offset = make(0);
+  const springForce = make(0);
   const velocity = make(0);
 
   return {
