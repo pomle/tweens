@@ -12,4 +12,4 @@ export const springs = {
   spring,
 };
 
-export type { Config as SpringConfig } from './spring';
+export type { Config as SpringConfig, Spring } from './spring';
