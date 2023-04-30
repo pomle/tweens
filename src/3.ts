@@ -29,6 +29,25 @@ export function opacity(
 export function zoom(
   camera: PerspectiveCamera,
   config?: Config,
+): Spring<{ zoom: number }> {
+  const tween = spring({ zoom: camera.zoom }, config);
+
+  return {
+    ...tween,
+    update(deltaTime: number) {
+      if (tween.update(deltaTime)) {
+        camera.zoom = tween.value.zoom;
+        camera.updateProjectionMatrix();
+        return true;
+      }
+      return false;
+    },
+  };
+}
+
+export function fov(
+  camera: PerspectiveCamera,
+  config?: Config,
 ): Spring<{ fov: number }> {
   const tween = spring({ fov: camera.fov }, config);
 
