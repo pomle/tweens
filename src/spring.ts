@@ -97,6 +97,7 @@ export function spring<T extends Vector>(
 
     set(this: void, next: T) {
       copy(vec, next);
+      desire = undefined;
     },
 
     to(this: void, next: T) {
