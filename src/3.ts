@@ -81,10 +81,21 @@ export function position(object: Object3D, config?: Config) {
 
 export function rotation(object: Object3D, config?: Config): Spring<Euler> {
   const rot = object.rotation;
-  const tween = spring(rot as Vec3, config);
+  // Euler object has getters for XYZ
+  const buffer = { x: rot.x, y: rot.y, z: rot.z };
+  const tween = spring(buffer, config);
   return {
     ...tween,
     value: rot,
+    update(deltaTime: number) {
+      if (tween.update(deltaTime)) {
+        rot.x = buffer.x;
+        rot.y = buffer.y;
+        rot.z = buffer.z;
+        return true;
+      }
+      return false;
+    },
   };
 }
 
