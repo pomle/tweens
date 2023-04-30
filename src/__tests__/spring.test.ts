@@ -72,7 +72,7 @@ describe('Spring', () => {
       while (tween.update(0.1)) {
         rounds++;
       }
-      expect(rounds).toBe(46);
+      expect(rounds).toBe(45);
     });
 
     it('simulates with expected diff', () => {

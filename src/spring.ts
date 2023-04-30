@@ -60,12 +60,7 @@ export function spring<T extends Vector>(
 
   let desire: Vector | undefined;
 
-  const acceleration = make(0);
-  const dampingForce = make(0);
-  const delta = make(0);
-  const force = make(0);
   const offset = make(0);
-  const springForce = make(0);
   const velocity = make(0);
 
   return {
@@ -93,29 +88,24 @@ export function spring<T extends Vector>(
         return false;
       }
 
+      const { stiffness, mass, friction, precision } = physics;
+
       for (const k of keys) {
         offset[k] = value[k] - desire[k];
+        const damp = velocity[k] * friction;
+        const drag = offset[k] * stiffness;
+        const force = -(damp + drag);
+        const acc = force / mass;
+        velocity[k] += acc;
+        (value[k] as number) += velocity[k] * deltaTime;
       }
 
       const distance = length(offset);
       const speed = length(velocity);
 
-      const { stiffness, mass, friction, precision } = physics;
-
       if (speed < precision && distance < precision) {
         copy(value, desire);
-        this.clear();
-        return true;
-      }
-
-      for (const k of keys) {
-        dampingForce[k] = velocity[k] * friction;
-        springForce[k] = offset[k] * stiffness;
-        force[k] = -(dampingForce[k] + springForce[k]);
-        acceleration[k] = force[k] / mass;
-        velocity[k] += acceleration[k];
-        delta[k] = velocity[k] * deltaTime;
-        (value[k] as number) += delta[k];
+        desire = undefined;
       }
 
       return true;
