@@ -14,7 +14,7 @@ export function opacity(material: Material, config?: Config) {
     },
     update(deltaTime: number) {
       if (tween.update(deltaTime)) {
-        material.opacity = tween.values.opacity;
+        material.opacity = tween.value.opacity;
         return true;
       }
       return false;
@@ -35,7 +35,7 @@ export function zoom(camera: PerspectiveCamera, config?: Config) {
     },
     update(deltaTime: number) {
       if (tween.update(deltaTime)) {
-        camera.fov = tween.values.fov;
+        camera.fov = tween.value.fov;
         camera.updateProjectionMatrix();
         return true;
       }

@@ -17,7 +17,7 @@ const DEFAULT_PHYSICS: Physics = {
 };
 
 interface Spring<T> {
-  values: T;
+  value: T;
   set(vec: T): void;
   to(vec: T): void;
   clear(): void;
@@ -93,7 +93,7 @@ export function spring<T extends Vector>(
   const velocity = make(0);
 
   return {
-    values: vec,
+    value: vec,
 
     set(this: void, next: T) {
       copy(vec, next);
