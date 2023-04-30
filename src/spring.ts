@@ -26,11 +26,11 @@ interface Spring<T> {
 }
 
 export function spring<T extends Vector>(
-  vec: T,
+  value: T,
   config: Config = DEFAULT_PHYSICS,
 ): Spring<T> {
   type Key = keyof Vector;
-  const keys = Object.keys(vec) as Key[];
+  const keys = Object.keys(value) as Key[];
 
   function make(initial: number): Vector {
     const next = {};
@@ -69,10 +69,10 @@ export function spring<T extends Vector>(
   const velocity = make(0);
 
   return {
-    value: vec,
+    value,
 
     set(this: void, next: T) {
-      copy(vec, next);
+      copy(value, next);
       desire = undefined;
     },
 
@@ -94,7 +94,7 @@ export function spring<T extends Vector>(
       }
 
       for (const k of keys) {
-        offset[k] = vec[k] - desire[k];
+        offset[k] = value[k] - desire[k];
       }
 
       const distance = length(offset);
@@ -103,7 +103,7 @@ export function spring<T extends Vector>(
       const { stiffness, mass, friction, precision } = physics;
 
       if (speed < precision && distance < precision) {
-        copy(vec, desire);
+        copy(value, desire);
         this.clear();
         return true;
       }
@@ -115,7 +115,7 @@ export function spring<T extends Vector>(
         acceleration[k] = force[k] / mass;
         velocity[k] += acceleration[k];
         delta[k] = velocity[k] * deltaTime;
-        (vec[k] as number) += delta[k];
+        (value[k] as number) += delta[k];
       }
 
       return true;
