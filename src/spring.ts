@@ -16,7 +16,7 @@ const DEFAULT_PHYSICS: Physics = {
   precision: 0.0005,
 };
 
-interface Spring<T> {
+export interface Spring<T> {
   value: T;
   set(vec: T): void;
   to(vec: T): void;
