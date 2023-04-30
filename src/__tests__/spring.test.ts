@@ -9,7 +9,7 @@ describe('Spring', () => {
 
     const tween = spring(tweenable);
 
-    expect(tween.values).toBe(tweenable);
+    expect(tween.value).toBe(tweenable);
   });
 
   describe('#to', () => {
@@ -17,7 +17,7 @@ describe('Spring', () => {
       const tween = spring({ x: 1, y: 2 });
       tween.to({ x: 3, y: 10 });
       expect(tween.update(0.1)).toBe(true);
-      expect(tween.values).toEqual({ x: 1.8, y: 5.2 });
+      expect(tween.value).toEqual({ x: 1.8, y: 5.2 });
     });
   });
 
@@ -25,7 +25,7 @@ describe('Spring', () => {
     it('sets the internal value immediately', () => {
       const tween = spring({ x: 1, y: 2 });
       tween.set({ x: 3, y: 10 });
-      expect(tween.values).toEqual({ x: 3, y: 10 });
+      expect(tween.value).toEqual({ x: 3, y: 10 });
     });
 
     it('aborts a tween', () => {
@@ -42,10 +42,10 @@ describe('Spring', () => {
       const tween = spring({ x: 1, y: 2 });
       tween.to({ x: 3, y: 10 });
       expect(tween.update(0.1)).toBe(true);
-      expect(tween.values).toEqual({ x: 1.8, y: 5.2 });
+      expect(tween.value).toEqual({ x: 1.8, y: 5.2 });
       tween.clear();
       expect(tween.update(0.1)).toBe(false);
-      expect(tween.values).toEqual({ x: 1.8, y: 5.2 });
+      expect(tween.value).toEqual({ x: 1.8, y: 5.2 });
     });
   });
 
@@ -82,7 +82,7 @@ describe('Spring', () => {
       );
       tween.to({ x: 2 });
       expect(tween.update(0.1)).toBe(true);
-      expect(tween.values).toEqual({ x: 1.1 });
+      expect(tween.value).toEqual({ x: 1.1 });
     });
 
     it('settles to exact goal value on simulation end', () => {
@@ -92,7 +92,7 @@ describe('Spring', () => {
       );
       tween.to({ x: 2 });
       while (tween.update(0.1));
-      expect(tween.values).toEqual({ x: 2 });
+      expect(tween.value).toEqual({ x: 2 });
     });
   });
 });
