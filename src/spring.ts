@@ -46,17 +46,23 @@ export function spring<T extends Vector>(
     }
   }
 
-  function length(vector: Vector) {
+  function lengthSq(vector: Vector) {
     let sum = 0;
     for (const k of keys) {
       const v = vector[k] as number;
       sum += v * v;
     }
-    return Math.sqrt(sum);
+    return sum;
   }
 
   const physics = { ...DEFAULT_PHYSICS };
-  Object.assign(physics, config);
+
+  function reconfigure(config: Config) {
+    Object.assign(physics, config);
+    physics.precision = Math.pow(physics.precision, 2);
+  }
+
+  reconfigure(config);
 
   let desire: Vector | undefined;
 
@@ -75,16 +81,14 @@ export function spring<T extends Vector>(
       desire = next;
     },
 
-    reconfigure(config?: Config) {
-      Object.assign(physics, config);
-    },
+    reconfigure,
 
     clear() {
       desire = undefined;
     },
 
     update(deltaTime: number) {
-      if (desire == null) {
+      if (!desire) {
         return false;
       }
 
@@ -100,8 +104,8 @@ export function spring<T extends Vector>(
         (value[k] as number) += velocity[k] * deltaTime;
       }
 
-      const distance = length(offset);
-      const speed = length(velocity);
+      const distance = lengthSq(offset);
+      const speed = lengthSq(velocity);
 
       if (speed < precision && distance < precision) {
         copy(value, desire);
