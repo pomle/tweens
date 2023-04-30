@@ -16,10 +16,19 @@ const DEFAULT_PHYSICS: Physics = {
   precision: 0.0005,
 };
 
+interface Spring {
+  values: Vector;
+  set(vec: Vector): void;
+  to(vec: Vector): void;
+  clear(): void;
+  reconfigure(config: Config): void;
+  update(delatTime: number): boolean;
+}
+
 export function spring<T extends Vector>(
   vec: T,
   config: Config = DEFAULT_PHYSICS,
-) {
+): Spring {
   type Key = keyof Vector;
   const keys = Object.keys(vec) as Key[];
 

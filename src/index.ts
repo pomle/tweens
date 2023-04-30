@@ -1,4 +1,4 @@
-import { spring, value } from './tween';
+import { spring, value } from './spring';
 import { zoom, position, lookAt, opacity, rotation, scale, vec3 } from './3';
 
 export const springs = {
@@ -13,4 +13,4 @@ export const springs = {
   value,
 };
 
-export type { Config as SpringConfig } from './tween';
+export type { Config as SpringConfig } from './spring';
