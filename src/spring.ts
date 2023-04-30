@@ -40,18 +40,6 @@ export function spring<T extends Vector>(
     return next;
   }
 
-  function add(vecTo: Vector, vecFrom: Vector) {
-    for (const k of keys) {
-      vecTo[k] += vecFrom[k];
-    }
-  }
-
-  function sub(vecTo: Vector, vecFrom: Vector) {
-    for (const k of keys) {
-      vecTo[k] -= vecFrom[k];
-    }
-  }
-
   function copy(vecTo: Vector, vecFrom: Vector) {
     for (const k of keys) {
       vecTo[k] = vecFrom[k];
@@ -65,18 +53,6 @@ export function spring<T extends Vector>(
       sum += v * v;
     }
     return Math.sqrt(sum);
-  }
-
-  function multiplyScalar(vec: Vector, scalar: number) {
-    for (const k of keys) {
-      vec[k] *= scalar;
-    }
-  }
-
-  function divideScalar(vec: Vector, scalar: number) {
-    for (const k of keys) {
-      vec[k] /= scalar;
-    }
   }
 
   const physics = { ...DEFAULT_PHYSICS };
@@ -117,8 +93,9 @@ export function spring<T extends Vector>(
         return false;
       }
 
-      copy(offset, vec);
-      sub(offset, desire);
+      for (const k of keys) {
+        offset[k] = vec[k] - desire[k];
+      }
 
       const distance = length(offset);
       const speed = length(velocity);
@@ -131,24 +108,15 @@ export function spring<T extends Vector>(
         return true;
       }
 
-      copy(dampingForce, velocity);
-      multiplyScalar(dampingForce, friction);
-
-      copy(springForce, offset);
-      multiplyScalar(springForce, stiffness);
-
-      copy(force, dampingForce);
-      add(force, springForce);
-      multiplyScalar(force, -1);
-
-      copy(acceleration, force);
-      divideScalar(acceleration, mass);
-      add(velocity, acceleration);
-
-      copy(delta, velocity);
-      multiplyScalar(delta, deltaTime);
-
-      add(vec, delta);
+      for (const k of keys) {
+        dampingForce[k] = velocity[k] * friction;
+        springForce[k] = offset[k] * stiffness;
+        force[k] = -(dampingForce[k] + springForce[k]);
+        acceleration[k] = force[k] / mass;
+        velocity[k] += acceleration[k];
+        delta[k] = velocity[k] * deltaTime;
+        (vec[k] as number) += delta[k];
+      }
 
       return true;
     },
