@@ -32,8 +32,8 @@ export function spring<T extends Vector>(
   type Key = keyof Vector;
   const keys = Object.keys(vec) as Key[];
 
-  function make(initial: number) {
-    const next = { ...vec } as Vector;
+  function make(initial: number): Vector {
+    const next = {};
     for (const k of keys) {
       next[k] = initial;
     }
