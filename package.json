@@ -1,6 +1,6 @@
 {
   "name": "@pomle/tween",
-  "version": "0.1.0-7",
+  "version": "0.1.0-8",
   "description": "TypeScript library for creating flexible spring physics tweens",
   "author": "Pontus Alexander <pontus.alexander@gmail.com>",
   "license": "MIT",
