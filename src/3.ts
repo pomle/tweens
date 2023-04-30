@@ -1,5 +1,5 @@
 import { Camera, Material, Object3D, PerspectiveCamera, Vector3 } from 'three';
-import { Config, spring } from 'tween';
+import { Config, spring } from './spring';
 
 export function opacity(material: Material, config?: Config) {
   const tween = spring({ opacity: material.opacity }, config);
