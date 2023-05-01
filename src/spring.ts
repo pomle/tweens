@@ -1,5 +1,28 @@
 type Vector = Record<string, number>;
 
+function set(rec: Record<string, number>, value: number) {
+  for (const k of Object.keys(rec)) {
+    rec[k] = value;
+  }
+}
+
+function copy<T extends object>(
+  a: Record<keyof T, number>,
+  b: Record<keyof T, number>,
+) {
+  for (const key of Object.keys(a)) {
+    a[key] = b[key];
+  }
+}
+
+function lengthSq(rec: Record<string, number>) {
+  let sum = 0;
+  for (const v of Object.values(rec)) {
+    sum += v * v;
+  }
+  return sum;
+}
+
 export type Physics = {
   friction: number;
   mass: number;
@@ -32,29 +55,6 @@ export function spring<T extends Vector>(
   type Key = keyof Vector;
   const keys = Object.keys(value) as Key[];
 
-  function make(initial: number): Vector {
-    const next = {};
-    for (const k of keys) {
-      next[k] = initial;
-    }
-    return next;
-  }
-
-  function copy(vecTo: Vector, vecFrom: Vector) {
-    for (const k of keys) {
-      vecTo[k] = vecFrom[k];
-    }
-  }
-
-  function lengthSq(vector: Vector) {
-    let sum = 0;
-    for (const k of keys) {
-      const v = vector[k] as number;
-      sum += v * v;
-    }
-    return sum;
-  }
-
   const physics = { ...DEFAULT_PHYSICS };
 
   function reconfigure(config: Config) {
@@ -65,9 +65,8 @@ export function spring<T extends Vector>(
   reconfigure(config);
 
   let desire: Vector | undefined;
-
-  const offset = make(0);
-  const velocity = make(0);
+  const velocity = { ...value } as Vector;
+  set(velocity, 0);
 
   return {
     value,
@@ -93,6 +92,8 @@ export function spring<T extends Vector>(
       }
 
       const { stiffness, mass, friction, precision } = physics;
+
+      const offset = {};
 
       for (const k of keys) {
         offset[k] = value[k] - desire[k];
