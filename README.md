@@ -70,6 +70,7 @@ const config = {
   stiffness: 25, // How strong is the spring
   mass: 10, // How heavy is the object
   friction: 5, // How thick is the medium the object travels in
+  precision: 0.0005, // A threshold below which the spring settles and stops updating
 };
 
 const tween = springs.spring({value: 0}, config);
