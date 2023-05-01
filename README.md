@@ -75,6 +75,9 @@ const config = {
 const tween = springs.spring({value: 0}, config);
 ```
 
+Config is unit-less but values are related time step used in update function. To avoid the spring physics from going havoc values must be low enough to achieve a negative feedback loop. For example, if your time step is in milliseconds instead of seconds, the config input must be set to smaller numbers.
+
+
 ### Spring Interface 
 
 #### `values: Vector`
@@ -91,7 +94,7 @@ Sets the value immediately and thus stops further updates.
 
 #### `update(deltaTime: number): void`
 
-Runs one cycle of the spring simulation moving the values toward their desired state.
+Runs one cycle of the spring simulation moving the values toward their desired state. Fractions 1/10-1/120 is a reasonable range given the default spring config.
 
 #### `clear(): void`
 
@@ -99,23 +102,4 @@ Stops updates immediately and put the values at rest
 
 #### `reconfigure(config: Config): void`
 
-Updates the spring physics model.
-
-### Example with `THREE.Vector3` that transitions a position.
-
-```ts
-import { springs } from "@pomle/tweens";
-
-const NEAR = new THREE.Vector3(0, 100, 0);
-const FAR = new THREE.Vector3(0, 1000, 0);
-
-const position = new THREE.Vector3(0, 0, 0);
-
-const tween = springs.vec3(position);
-tween.set(FAR);
-tween.to(NEAR);
-
-function update(deltaTimeInSeconds: number) {
-  tween.update(deltaTimeInSeconds);
-}
-```
+Updates the spring physics config.
