@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script type="module">
+      import { spring } from './index.modern.js';
+
+      const canvas = document.getElementsByTagName('canvas')[0];
+
+      const context = canvas.getContext('2d');
+
+      function plot(config) {
+        const tween = spring({ value: 0 }, config);
+
+        const totalTime = 1;
+
+        function timeToX(time) {
+          return (time / totalTime) * canvas.width;
+        }
+
+        function valueToY(value) {
+          return value * canvas.height * 0.6;
+        }
+
+        function pos(time, value) {
+          return [timeToX(time), valueToY(value)];
+        }
+
+        const step = 1 / 60;
+        let time = 0;
+
+        tween.to({ value: 1 });
+        context.moveTo(0, 0);
+        while (tween.update(step)) {
+          time += step;
+          const value = tween.value.value;
+          const [x, y] = pos(time, value);
+          console.log(x, y);
+          context.lineTo(x, y);
+        }
+        context.stroke();
+      }
+
+      plot({});
+    </script>
+  </head>
+  <body>
+    <canvas width="1024" height="1024"></canvas>
+  </body>
+</html>
