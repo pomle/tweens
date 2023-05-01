@@ -95,9 +95,9 @@ describe('Spring', () => {
       expect(tween.value).toEqual({ x: 2 });
     });
 
-    it('does not contaminate values', () => {
+    it('does not contaminate neighbour values', () => {
       const tween = spring(
-        { x: 1, y: 0, z: 0 },
+        { x: 0, y: 0, z: 1 },
         {
           stiffness: 40,
           mass: 100,
@@ -106,17 +106,17 @@ describe('Spring', () => {
         },
       );
 
+      tween.to({ x: 1, y: 0, z: 0 });
+      while (tween.update(1 / 60)) {
+        expect(tween.value.y).toEqual(0);
+      }
+      expect(tween.value).toEqual({ x: 1, y: 0, z: 0 });
+
       tween.to({ x: 0, y: 1, z: 0 });
       while (tween.update(1 / 60)) {
         expect(tween.value.z).toEqual(0);
       }
       expect(tween.value).toEqual({ x: 0, y: 1, z: 0 });
-
-      tween.to({ x: 1, y: 0, z: 0 });
-      while (tween.update(1 / 60)) {
-        expect(tween.value.z).toEqual(0);
-      }
-      expect(tween.value).toEqual({ x: 1, y: 0, z: 0 });
     });
   });
 });
