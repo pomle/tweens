@@ -4,20 +4,18 @@ TypeScript lib for animating using spring physics tweens to any dimension.
 
 ## Usage
 
-All tweens follow the following pattern.
-
-1. Setup
+1. Initialize
     ```ts
-    import { springs } from "@pomle/tween";
+    import { spring } from "@pomle/tween";
     
-    const tween = springs.spring({valueA: 0, valueB: 2});
+    const tween = spring({valueA: 0, valueB: 2});
     tween.to({valueA: 3, valueB: 4});
     ```
 
 2. Update & Read
     ```ts
     // Returns true when change made
-    if (tween.update(deltaTime)) {
+    if (tween.update(1/60)) {
       const values = tween.values;
       console.log("New values", values);
     }
@@ -29,7 +27,7 @@ Input object will be mutated on update. Depending on your use case you may eithe
 
 Setup
 ```ts
-import { springs } from "@pomle/tween";
+import { spring } from "@pomle/tween";
 
 const myObject = {
   position: {x: 0, y: 0: z: 0},
@@ -39,7 +37,7 @@ const myObject = {
 * With mutation
   
   ```ts
-  const tween = springs.spring(myObject.position);
+  const tween = spring(myObject.position);
   tween.to({x: 1, y: 2: z: 3});
   tween.update(1/60);
   ```
@@ -47,7 +45,7 @@ const myObject = {
 * With copy
 
   ```ts
-  const tween = springs.spring({...myObject.position});
+  const tween = spring({...myObject.position});
   tween.to({x: 1, y: 2: z: 3});
   tween.update(1/60);
   Object.assign(myObject.position, tween.values);
@@ -73,7 +71,7 @@ const config = {
   precision: 0.0005, // A threshold below which the spring settles and stops updating
 };
 
-const tween = springs.spring({value: 0}, config);
+const tween = spring({value: 0}, config);
 ```
 
 Config is unit-less but values are related time step used in update function. To avoid the spring physics from going havoc values must be low enough to achieve a negative feedback loop. For example, if your time step is in milliseconds instead of seconds, the config input must be set to smaller numbers.
