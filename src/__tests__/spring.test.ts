@@ -94,5 +94,29 @@ describe('Spring', () => {
       while (tween.update(0.1));
       expect(tween.value).toEqual({ x: 2 });
     });
+
+    it('does not contaminate values', () => {
+      const tween = spring(
+        { x: 1, y: 0, z: 0 },
+        {
+          stiffness: 40,
+          mass: 100,
+          friction: 25,
+          precision: 0.000001,
+        },
+      );
+
+      tween.to({ x: 0, y: 1, z: 0 });
+      while (tween.update(0.1)) {
+        expect(tween.value.z).toEqual(0);
+      }
+      expect(tween.value).toEqual({ x: 0, y: 1, z: 0 });
+
+      tween.to({ x: 1, y: 0, z: 0 });
+      while (tween.update(0.1)) {
+        expect(tween.value.z).toEqual(0);
+      }
+      expect(tween.value).toEqual({ x: 1, y: 0, z: 0 });
+    });
   });
 });
