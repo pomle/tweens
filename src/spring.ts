@@ -110,6 +110,7 @@ export function spring<T extends Vector>(
 
       if (speed < precision && distance < precision) {
         copy(value, desire);
+        set(velocity, 0);
         desire = undefined;
       }
 
