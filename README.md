@@ -62,7 +62,9 @@ type Vector = Record<string, number>;
 
 ### Config
 
-Three factors control the behavior of a spring physics simulation.
+Three factors, *stiffness*, *mass*, and *friction*, control the behavior of a spring physics simulation.
+
+The fourth config option, *precision*, determines how low velocity must be before the spring is considered settled. Once the spring is settled, it will set the spring value to the desired and pause simulation until a new desired value is supplied to the `.to` function.
 ```ts
 const config = {
   stiffness: 25, // How strong is the spring
