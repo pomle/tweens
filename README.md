@@ -74,7 +74,11 @@ const config = {
 const tween = spring({value: 0}, config);
 ```
 
-Config is unit-less but values are related time step used in update function. To avoid the spring physics from going havoc values must be low enough to achieve a negative feedback loop. For example, if your time step is in milliseconds instead of seconds, the config input must be set to smaller numbers.
+Config is unit-less but values are related to time step used in update function.
+
+For example, if your time step is in milliseconds instead of seconds, the config input must be set to numbers of the same magnitude.
+
+To avoid the spring physics from going havoc, values must be low enough to achieve a negative feedback loop.
 
 
 ### Spring Interface 
