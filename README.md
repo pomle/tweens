@@ -78,7 +78,7 @@ const tween = spring({value: 0}, config);
 
 Config is unit-less but values are related to time step used in update function.
 
-For example, if your time step is in milliseconds instead of seconds, the config input must be set to numbers of the same magnitude.
+For example, if your time step is in milliseconds instead of seconds, the config input must be set to numbers of a matching inverse magnitude.
 
 To avoid the spring physics from going havoc, values must be low enough to achieve a negative feedback loop.
 
