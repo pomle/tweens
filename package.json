@@ -25,14 +25,10 @@
     "lint": "eslint src --ext .ts,.tsx",
     "test": "jest test --env=jsdom"
   },
-  "peerDependencies": {
-    "three": "*"
-  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@types/jest": "^25.1.4",
     "@types/node": "^12.12.38",
-    "@types/three": "^0.146.0",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
     "babel-eslint": "^10.0.3",
@@ -47,7 +43,6 @@
     "jest": "^27.1.0",
     "microbundle": "^0.14.2",
     "prettier": "^2.0.4",
-    "three": "^0.147.0",
     "ts-jest": "^27.0.5",
     "typescript": "^4.8.4"
   },
