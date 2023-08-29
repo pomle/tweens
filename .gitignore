@@ -8,6 +8,7 @@ node_modules
 build
 dist
 .rpt2_cache
+example/tween.js
 
 # misc
 .DS_Store
