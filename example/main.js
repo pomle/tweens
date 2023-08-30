@@ -124,7 +124,7 @@ Y: ${box.y}
       box.x = tween.value.x;
       box.y = tween.value.y;
 
-      draw();
+      drawSimulation();
 
       output();
     }
@@ -134,7 +134,7 @@ Y: ${box.y}
     window.requestAnimationFrame(update);
   }
 
-  function draw() {
+  function drawSimulation() {
     const context = canvas.getContext('2d');
 
     context.clearRect(0, 0, canvas.width, canvas.height);
