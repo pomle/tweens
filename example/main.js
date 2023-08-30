@@ -15,11 +15,14 @@ class Circle {
 
 function createEngine(canvas) {
   const graphCanvas = document.createElement('canvas');
+  graphCanvas.width = canvas.width;
+  graphCanvas.height = 512;
 
   const box = new Box();
   const anchor = new Circle();
 
   const tween = spring({ x: 0, y: 0 });
+  const graphSpring = spring({ x: 0 });
 
   function moveTo(x, y) {
     x = Math.round(x);
@@ -46,9 +49,9 @@ function createEngine(canvas) {
   canvas.addEventListener('pointerdown', handlePointer);
 
   const config = {
-    stiffness: NaN,
-    mass: NaN,
-    friction: NaN,
+    stiffness: undefined,
+    mass: undefined,
+    friction: undefined,
     precision: 0.01,
   };
 
@@ -58,9 +61,15 @@ function createEngine(canvas) {
 
     config[name] = value;
 
-    console.log(config);
+    console.debug('Setting config', name, value);
+  }
 
+  function applyConfig() {
     tween.reconfigure(config);
+
+    console.debug('Applying config', config);
+
+    drawGraph(graphCanvas);
 
     output();
   }
@@ -93,6 +102,7 @@ Y: ${box.y}
   document.querySelectorAll('.config').forEach((input) => {
     input.addEventListener('input', (event) => {
       configure(event.target);
+      applyConfig();
     });
 
     configure(input);
@@ -111,8 +121,11 @@ Y: ${box.y}
           }
         }
       }
+      applyConfig();
     });
   });
+
+  applyConfig();
 
   let lastTime = 0;
   let deltaTime = 0;
@@ -134,10 +147,40 @@ Y: ${box.y}
     window.requestAnimationFrame(update);
   }
 
+  function drawGraph(canvas) {
+    const tween = spring({ x: 0 }, config);
+    tween.to({ x: canvas.height });
+
+    const values = [0];
+
+    while (tween.update(1 / 60)) {
+      values.push(tween.value.x);
+      if (values.length >= 1000) {
+        break;
+      }
+    }
+
+    console.log(values.length);
+
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.beginPath();
+    context.moveTo(0, 0);
+    for (let index = 1; index < values.length; index++) {
+      const p = values[index];
+      const x = index / values.length;
+      context.lineTo(x * canvas.width, p / 3);
+    }
+    context.strokeStyle = '#fff';
+    context.stroke();
+  }
+
   function drawSimulation() {
     const context = canvas.getContext('2d');
 
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.drawImage(graphCanvas, 0, 400);
 
     context.fillStyle = '#000';
     context.fillRect(box.x - box.w / 2, box.y - box.h / 2, box.w, box.h);
