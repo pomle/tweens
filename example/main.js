@@ -118,6 +118,22 @@ Y: ${box.y}
     configure(input);
   });
 
+  document.querySelectorAll('.preset').forEach((button) => {
+    const props = Object.keys(config);
+    button.addEventListener('click', (event) => {
+      for (const prop of props) {
+        const value = event.target.dataset[prop];
+        if (isFinite(value)) {
+          const input = document.querySelector(`.config[name=${prop}]`);
+          if (input) {
+            input.value = value;
+            configure(input);
+          }
+        }
+      }
+    });
+  });
+
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
