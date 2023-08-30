@@ -152,14 +152,17 @@ Y: ${box.y}
     const tween = spring({ x: 0 }, config);
     tween.to({ x: canvas.height });
 
-    const time = 5;
-    const iterations = 1000;
-    const step = time / iterations;
-    const values = [0];
+    const maxTime = 20;
+    const step = 1 / 60;
 
-    for (let index = 0; index < iterations; index++) {
-      tween.update(step);
+    let time = 0;
+    const values = [0];
+    while (tween.update(step)) {
+      time += step;
       values.push(tween.value.x);
+      if (time >= maxTime) {
+        break;
+      }
     }
 
     const context = canvas.getContext('2d');
