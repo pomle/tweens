@@ -10,7 +10,7 @@ class Box {
 class Circle {
   x = 0;
   y = 0;
-  r = 16;
+  r = 8;
 }
 
 function createEngine(canvas) {
