@@ -65,26 +65,6 @@ function createEngine(canvas) {
     output();
   }
 
-  let lastTime = 0;
-  let deltaTime = 0;
-
-  function update(time) {
-    deltaTime = (time - lastTime) / 1000;
-
-    if (tween.update(deltaTime)) {
-      box.x = tween.value.x;
-      box.y = tween.value.y;
-
-      draw();
-
-      output();
-    }
-
-    lastTime = time;
-
-    window.requestAnimationFrame(update);
-  }
-
   function output() {
     const code = `const config = {
   friction: ${config.friction},
@@ -133,6 +113,26 @@ Y: ${box.y}
       }
     });
   });
+
+  let lastTime = 0;
+  let deltaTime = 0;
+
+  function update(time) {
+    deltaTime = (time - lastTime) / 1000;
+
+    if (tween.update(deltaTime)) {
+      box.x = tween.value.x;
+      box.y = tween.value.y;
+
+      draw();
+
+      output();
+    }
+
+    lastTime = time;
+
+    window.requestAnimationFrame(update);
+  }
 
   function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
