@@ -14,7 +14,7 @@ class Circle {
 }
 
 function createEngine(canvas) {
-  const context = canvas.getContext('2d');
+  const graphCanvas = document.createElement('canvas');
 
   const box = new Box();
   const anchor = new Circle();
@@ -135,6 +135,8 @@ Y: ${box.y}
   }
 
   function draw() {
+    const context = canvas.getContext('2d');
+
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     context.fillStyle = '#000';
