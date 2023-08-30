@@ -8,6 +8,9 @@
         margin: 32px;
       }
 
+      button {
+      }
+
       canvas {
         background: #1e1e1e;
         border-radius: 8px;
@@ -24,10 +27,21 @@
         width: 100%;
       }
 
+      section input {
+        margin-top: 8px;
+      }
+
       .experiment {
         display: grid;
         grid-template-columns: auto 1fr;
         grid-gap: 24px;
+      }
+
+      .buttonset {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: min-content;
+        grid-gap: 8px;
       }
 
       #code,
@@ -53,25 +67,10 @@
                 class="config"
                 type="range"
                 min="0"
-                max="1000"
+                max="100"
                 step="0.1"
                 value="5"
                 name="friction"
-              />
-            </label>
-          </section>
-
-          <section>
-            <label>
-              Stiffness<br />
-              <input
-                class="config"
-                type="range"
-                min="0"
-                max="1000"
-                step="0.1"
-                value="50"
-                name="stiffness"
               />
             </label>
           </section>
@@ -93,6 +92,21 @@
 
           <section>
             <label>
+              Stiffness<br />
+              <input
+                class="config"
+                type="range"
+                min="0"
+                max="1000"
+                step="0.1"
+                value="50"
+                name="stiffness"
+              />
+            </label>
+          </section>
+
+          <section>
+            <label>
               Precision<br />
               <select class="config" name="precision">
                 <option>0.001</option>
@@ -103,6 +117,62 @@
                 <option>100</option>
               </select>
             </label>
+          </section>
+
+          <section>
+            Presets<br />
+
+            <div class="buttonset">
+              <button
+                type="button"
+                class="preset"
+                data-friction="5"
+                data-mass="50"
+                data-stiffness="50"
+              >
+                Springy
+              </button>
+
+              <button
+                type="button"
+                class="preset"
+                data-friction="34"
+                data-mass="140"
+                data-stiffness="130"
+              >
+                Smooth
+              </button>
+
+              <button
+                type="button"
+                class="preset"
+                data-friction="12"
+                data-mass="10"
+                data-stiffness="420"
+              >
+                Snappy
+              </button>
+
+              <button
+                type="button"
+                class="preset"
+                data-friction="70"
+                data-mass="1000"
+                data-stiffness="10"
+              >
+                Slothy
+              </button>
+
+              <button
+                type="button"
+                class="preset"
+                data-friction="1"
+                data-mass="500"
+                data-stiffness="80"
+              >
+                Spacy
+              </button>
+            </div>
           </section>
         </fieldset>
 
