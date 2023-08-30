@@ -18,11 +18,12 @@ function createEngine(canvas) {
   graphCanvas.width = canvas.width;
   graphCanvas.height = 512;
 
+  const timeStep = 1 / 60;
+
   const box = new Box();
   const anchor = new Circle();
 
-  const tween = spring({ x: 0, y: 0 });
-  const graphSpring = spring({ x: 0 });
+  const tween = spring({ x: -500, y: -500 });
 
   function moveTo(x, y) {
     x = Math.round(x);
@@ -88,6 +89,15 @@ position.to({
   x: ${anchor.x.toFixed(2)},
   y: ${anchor.y.toFixed(2)},
 });
+
+function update() {
+  if (position.update(1/60)) {
+    draw();
+  }
+  requestAnimationFrame(update);
+}
+
+update();
 `;
 
     document.getElementById('code').textContent = code;
@@ -128,13 +138,8 @@ Y: ${box.y}
 
   applyConfig();
 
-  let lastTime = 0;
-  let deltaTime = 0;
-
-  function update(time) {
-    deltaTime = (time - lastTime) / 1000;
-
-    if (tween.update(deltaTime)) {
+  function update() {
+    if (tween.update(timeStep)) {
       box.x = tween.value.x;
       box.y = tween.value.y;
 
@@ -142,9 +147,6 @@ Y: ${box.y}
 
       output();
     }
-
-    lastTime = time;
-
     window.requestAnimationFrame(update);
   }
 
