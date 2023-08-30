@@ -70,6 +70,7 @@ function createEngine(canvas) {
     console.debug('Applying config', config);
 
     drawGraph(graphCanvas);
+    drawSimulation();
 
     output();
   }
