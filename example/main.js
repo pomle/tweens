@@ -152,16 +152,15 @@ Y: ${box.y}
     const tween = spring({ x: 0 }, config);
     tween.to({ x: canvas.height });
 
+    const time = 5;
+    const iterations = 1000;
+    const step = time / iterations;
     const values = [0];
 
-    while (tween.update(1 / 60)) {
+    for (let index = 0; index < iterations; index++) {
+      tween.update(step);
       values.push(tween.value.x);
-      if (values.length >= 1000) {
-        break;
-      }
     }
-
-    console.log(values.length);
 
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -174,6 +173,10 @@ Y: ${box.y}
     }
     context.strokeStyle = '#fff';
     context.stroke();
+
+    context.font = '16px sans-serif';
+    context.fillStyle = '#fff';
+    context.fillText(time.toFixed(1) + 's', canvas.width - 40, 16);
   }
 
   function drawSimulation() {
