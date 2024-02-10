@@ -82,6 +82,8 @@ For example, if your time step is in milliseconds instead of seconds, the config
 
 To avoid the spring physics from going havoc, values must be low enough to achieve a negative feedback loop.
 
+Use [Spring Simulator](https://pomle.github.io/tweens/) to explore configs.
+
 
 ### Spring Interface 
 
