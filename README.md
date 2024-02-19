@@ -1,6 +1,8 @@
 # Tween
 
-TypeScript lib for animating using spring physics tweens to any dimension.
+TypeScript lib for animating using spring physics tweens to any dimension. 
+
+[Demo](https://pomle.github.io/tweens/)
 
 ## Usage
 
@@ -76,11 +78,10 @@ const config = {
 const tween = spring({value: 0}, config);
 ```
 
-Config is unit-less but values are related to time step used in update function.
-
+Config is unit-less but values are related to time step used in update function. 
 For example, if your time step is in milliseconds instead of seconds, the config input must be set to numbers of a matching inverse magnitude.
-
-To avoid the spring physics from going havoc, values must be low enough to achieve a negative feedback loop.
+To avoid the spring physics from going havoc, values must be low enough to achieve a negative feedback loop. 
+Refer to [Example Demo](https://pomle.github.io/tweens/) to find values you like.
 
 
 ### Spring Interface 
