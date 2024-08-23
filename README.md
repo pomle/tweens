@@ -104,7 +104,7 @@ Runs one cycle of the spring simulation moving the values toward their desired s
 
 #### `clear(): void`
 
-Stops updates immediately and put the values at rest
+Stops updates immediately and put the values to rest.
 
 #### `reconfigure(config: Config): void`
 
